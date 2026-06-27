@@ -79,9 +79,7 @@ multi-mode-digital-modem/
 │
 ├── TB/
 │   Functional verification testbenches
-│
-└── docs/
-    Project documentation
+
 ```
 
 ---
