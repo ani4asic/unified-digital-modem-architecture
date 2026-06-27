@@ -1,76 +1,84 @@
-# unified-digital-modem-architecture
 # Multi-Mode Digital Modem Architecture
 
-> A synthesizable Verilog-based RTL implementation of a configurable digital modem supporting **ASK, PSK, and FSK modulation and demodulation** with user-selectable operating modes.
+> A synthesizable Verilog-based RTL implementation of a configurable digital modem supporting **ASK, PSK, and FSK modulation and demodulation** with dynamic user-selectable operating modes. The design was functionally verified through Verilog simulation and validated on the **Digilent Arty A7 FPGA Development Board**.
 
 ![Language](https://img.shields.io/badge/Language-Verilog-blue)
 ![RTL](https://img.shields.io/badge/Design-RTL-success)
-![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
+![FPGA](https://img.shields.io/badge/Hardware-Arty%20A7-green)
+
 
 ---
 
-## Overview
+# Overview
 
-This project presents a **unified digital modem architecture** capable of performing both modulation and demodulation using three widely adopted digital modulation techniques:
+This project implements a **unified digital modem architecture** capable of performing both modulation and demodulation using three fundamental digital modulation techniques:
 
 * Amplitude Shift Keying (ASK)
 * Phase Shift Keying (PSK)
 * Frequency Shift Keying (FSK)
 
-A user-selectable control input enables dynamic switching between modulation schemes, allowing a single RTL implementation to support multiple communication modes. The architecture integrates modulation and demodulation into a common framework, enabling end-to-end recovery of the transmitted message signal.
+Unlike conventional implementations where each modulation technique is designed independently, this architecture integrates all three into a single configurable RTL design. The user dynamically selects the desired modulation scheme, after which the corresponding modulation and demodulation path is activated.
+
+A **Direct Digital Synthesizer (DDS)** generates the carrier waveform, which is used by the selected modulation block to modulate the incoming message signal. The generated waveform is subsequently demodulated to recover the original binary message.
 
 ---
 
-## Project Highlights
+# Project Highlights
 
 * Unified RTL architecture supporting ASK, PSK, and FSK
 * User-selectable modulation scheme
 * Integrated modulation and demodulation pipeline
 * DDS-based carrier signal generation
 * Modular and synthesizable Verilog implementation
-* Functional verification through Verilog simulation
+* Functional verification using Verilog simulation
+* Hardware validation on the Digilent Arty A7 FPGA Development Board
+* Real-time waveform analysis using ChipScope Pro
 
 ---
 
-## System Architecture
+# System Architecture
 
 ```text
-                 Message Signal
+                 Binary Message
                        │
                        ▼
-              User Modulation Selection
+              User Mode Selection
                        │
-         ┌─────────────┼─────────────┐
-         │             │             │
-        ASK           PSK           FSK
-         │             │             │
-         └─────────────┼─────────────┘
-                       │
-                       ▼
-            Unified Modulator (RTL)
-                       │
-                 Modulated Signal
+        ┌──────────────┼──────────────┐
+        │              │              │
+       ASK            PSK            FSK
+        │              │              │
+        └──────────────┼──────────────┘
                        │
                        ▼
-           Unified Demodulator (RTL)
+          Direct Digital Synthesizer
+                (Carrier Generation)
                        │
                        ▼
-            Recovered Message Signal
+             Unified Modulator (RTL)
+                       │
+                Modulated Signal
+                       │
+                       ▼
+            Unified Demodulator (RTL)
+                       │
+                       ▼
+           Recovered Message Signal
 ```
 
 ---
 
-## Repository Structure
+# Repository Structure
 
 ```text
-Multi-Mode-Digital-Modem/
+multi-mode-digital-modem/
 
 ├── README.md
 ├── RTL/
 │   Verilog source files
 │
 ├── TB/
-│   Testbench files
+│   Functional verification testbenches
 │
 └── docs/
     Project documentation
@@ -78,63 +86,84 @@ Multi-Mode-Digital-Modem/
 
 ---
 
-## Design Methodology
+# Design Methodology
 
-The modem architecture consists of individual ASK, PSK, and FSK modulation/demodulation modules integrated under a common control framework.
+The modem architecture consists of independent ASK, PSK, and FSK modulation/demodulation blocks integrated under a common control framework.
 
-A user selection signal determines the active modulation scheme. Based on the selected mode, the corresponding modulator processes the incoming binary message using a DDS-generated carrier signal. The resulting waveform is then passed through the matching demodulator to reconstruct the original message.
+A user selection signal determines the active modulation scheme. The DDS generates the carrier waveform required by the selected modulation block, which modulates the incoming binary message. The resulting waveform is then passed to the corresponding demodulator, where the original message signal is recovered.
 
-The modular RTL architecture enables straightforward extension to additional modulation schemes while maintaining a common interface.
+The modular RTL design allows additional modulation techniques to be integrated with minimal architectural changes.
 
 ---
 
-## Verification
+# Verification & Hardware Validation
 
-The design was functionally verified using Verilog simulation.
+The complete modem architecture was verified through both RTL simulation and FPGA implementation.
 
-Verification included:
+### Functional Verification
 
-* ✔ ASK Modulation and Demodulation
-* ✔ PSK Modulation and Demodulation
-* ✔ FSK Modulation and Demodulation
-* ✔ User-controlled mode selection
+* ✔ ASK modulation and demodulation
+* ✔ PSK modulation and demodulation
+* ✔ FSK modulation and demodulation
+* ✔ Dynamic modulation selection
 * ✔ End-to-end message recovery
 
-The recovered output matched the transmitted message for all supported modulation schemes.
+### FPGA Validation
+
+The synthesized design was implemented on the **Digilent Arty A7 FPGA Development Board**, where the modulation and demodulation schemes were successfully validated.
+
+Waveforms were observed and analyzed using **ChipScope Pro**, confirming the correct operation of the selected modulation technique and successful recovery of the transmitted message.
 
 ---
 
-## Applications
+# Applications
 
 * Digital Communication Systems
-* FPGA Communication Prototypes
+* FPGA-Based Communication Prototypes
 * Software Defined Radio (SDR) Prototyping
-* Communication System Education and Research
+* Academic and Research Platforms
+* Digital Modem IP Development
 
 ---
 
-## Skills Demonstrated
+# Tools & Hardware
+
+### Language
+
+* Verilog HDL
+
+### Hardware
+
+* Digilent Arty A7 FPGA Development Board
+
+### Development Tools
+
+* Xilinx ISE
+* ChipScope Pro
+
+---
+
+# Skills Demonstrated
 
 * Verilog HDL
 * RTL Design
+* FPGA Prototyping
 * Digital Communication Systems
 * Digital Modulation Techniques
 * Direct Digital Synthesis (DDS)
 * Functional Verification
-* Modular Hardware Design
+* FPGA Validation
+* Hardware Debugging
+* Modular RTL Design
 
 ---
 
-## Future Enhancements
+# Future Enhancements
 
 * QPSK and QAM implementation
 * BER (Bit Error Rate) analysis
 * Noise channel modeling
-* FPGA implementation and hardware validation
-* AXI-Stream interface support
+* Adaptive modulation techniques
+* AXI-Stream interface integration
 
----
 
-## License
-
-This repository is intended for educational and research purposes.
